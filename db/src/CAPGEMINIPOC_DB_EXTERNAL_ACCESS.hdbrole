@@ -1,0 +1,12 @@
+{
+    "role": {
+        "name": "CapgeminiPOC.db::EXTERNAL_ACCESS",
+        "schema_privileges": [
+            {
+                "privileges": [
+                    "SELECT"
+                ]
+            }
+        ]
+    }
+}

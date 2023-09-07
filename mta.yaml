@@ -1,0 +1,57 @@
+_schema-version: "3.1"
+ID: CapgeminiPOC
+description: CapgeminiPOC
+version: 0.0.1
+modules:
+  - name: CapgeminiPOC-srv
+    type: nodejs
+    path: gen/srv
+    requires:
+      - name: CapgeminiPOC-db
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm
+  - name: CapgeminiPOC
+    type: approuter.nodejs
+    path: app/
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          forwardAuthToken: true
+          name: srv-api
+          url: ~{srv-url}
+    parameters:
+      disk-quota: 256M
+      keep-existing-routes: true
+      memory: 256M
+  - name: CapgeminiPOC-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: CapgeminiPOC-db
+    parameters:
+      buildpack: nodejs_buildpack
+resources:
+  - name: CapgeminiPOC-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: CapgeminiPOC_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx cds build --production

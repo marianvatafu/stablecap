@@ -1,0 +1,36 @@
+{
+  "requires": {
+    "db": {
+      "binding": {
+        "type": "cf",
+        "apiEndpoint": "https://api.cf.us10-001.hana.ondemand.com",
+        "org": "5a08ba10trial",
+        "space": "dev",
+        "instance": "CapgeminiPOC-db",
+        "key": "CapgeminiPOC-db-key",
+        "resolved": false
+      },
+      "kind": "hana",
+      "vcap": {
+        "name": "db"
+      }
+    },
+    "[hybrid]": {
+      "db": {
+        "binding": {
+          "type": "cf",
+          "apiEndpoint": "https://api.cf.us10-001.hana.ondemand.com",
+          "org": "5a08ba10trial",
+          "space": "dev",
+          "instance": "CapgeminiPOC-db",
+          "key": "CapgeminiPOC-db-key",
+          "resolved": false
+        },
+        "kind": "hana",
+        "vcap": {
+          "name": "db"
+        }
+      }
+    }
+  }
+}

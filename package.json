@@ -1,0 +1,98 @@
+{
+  "name": "CapgeminiPOC",
+  "version": "0.0.1",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "description": "CapgeminiPOC",
+  "engines": {
+    "node": "^16"
+  },
+  "dependencies": {
+    "@sap/audit-logging": "^5",
+    "@sap/cds": "^6.8.4",
+    "@sap/xssec": "^3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "debug": "^4.3",
+    "express": "^4.18.2",
+    "hdb": "^0.19",
+    "openai": "^3.3.0",
+    "passport": "^0",
+    "@sap/cds-hana": "^2"
+  },
+  "devDependencies": {
+    "@sap/cds-dk": "^7",
+    "@sap/ux-specification": "^1.96.4"
+  },
+  "sapux": [
+    "app/resources/fiori"
+  ],
+  "scripts": {
+    "start": "cds run",
+    "d1": "mbt build -s '/home/user/projects/CapgeminiPOC'; sleep 2;",
+    "d2": "cf deploy mta_archives/CapgeminiPOC_0.0.1.mtar -f",
+    "d3": "npm run d1 && npm run d2"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es2020": true,
+      "node": true,
+      "jest": true,
+      "mocha": true
+    },
+    "globals": {
+      "SELECT": true,
+      "INSERT": true,
+      "UPDATE": true,
+      "DELETE": true,
+      "CREATE": true,
+      "DROP": true,
+      "CDL": true,
+      "CQL": true,
+      "CXL": true,
+      "cds": true
+    },
+    "rules": {
+      "no-console": "off",
+      "require-atomic-updates": "off"
+    }
+  },
+  "cds": {
+    "requires": {
+      "auth": {
+        "restrict_all_services": false
+      },
+      "db": {
+        "[production]": {
+          "kind": "sql",
+          "model": [
+            "db/data-config",
+            "db/data-test"
+          ]
+        },
+        "[development]": {
+          "kind": "sql",
+          "model": [
+            "db/data-config",
+            "db/data-test"
+          ]
+        },
+        "model": [
+          "db",
+          "srv"
+        ]
+      },
+      "[production]": {
+        "db": "hana"
+      }
+    },
+    "hana": {
+      "deploy-format": "hdbtable",
+      "migration": "hdbtable",
+      "build": {
+        "plugin": "com.sap.hana.di.cds"
+      }
+    }
+  }
+}
